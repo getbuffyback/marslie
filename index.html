@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>What is "Hope"?</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 40px;
+    }
+    #response {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>What is "Hope"?</h2>
+  <input type="text" id="answerInput" placeholder="Type your answer here">
+  <button onclick="checkAnswer()">Submit</button>
+  <div id="response"></div>
+
+  <script>
+    function checkAnswer() {
+      const input = document.getElementById('answerInput').value.trim().toLowerCase();
+      const validAnswers = [
+        'the thing with feathers',
+        'hope is the thing with feathers',
+        '"hope" is the thing with feathers'
+      ];
+
+      if (validAnswers.includes(input)) {
+        document.body.innerHTML = '<h2>Good job. Here\'s your code: 233754.</h2>';
+      } else {
+        document.getElementById('response').innerText = 'Try again.';
+      }
+    }
+  </script>
+</body>
+</html>
