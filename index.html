@@ -1,26 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>What is "Hope"?</title>
+  <title>Get Buffy Back</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 40px;
+    * {
+      box-sizing: border-box;
     }
-    #response {
-      margin-top: 20px;
+
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      padding: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      background: #fdfdfd;
+    }
+
+    h2, p {
+      text-align: center;
+      max-width: 500px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    #identityResponse, #hopeResponse {
       font-weight: bold;
+      text-align: center;
+    }
+
+    #messageAndHope {
+      display: none;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .typewriter {
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 16px;
+      text-align: left;
+      max-width: 500px;
     }
   </style>
 </head>
 <body>
-  <h2>What is "Hope"?</h2>
-  <input type="text" id="answerInput" placeholder="Type your answer here">
-  <button onclick="checkAnswer()">Submit</button>
-  <div id="response"></div>
+  <div id="identityCheck">
+    <h2>Who am I speaking to?</h2>
+    <input type="text" id="identityInput" placeholder="Type your name">
+    <button onclick="checkIdentity()">Submit</button>
+    <div id="identityResponse"></div>
+  </div>
+
+  <div id="messageAndHope">
+    <p id="personalMessage"></p>
+    <h2>What is "Hope"?</h2>
+    <input type="text" id="answerInput" placeholder="Type your answer here">
+    <button onclick="checkHopeAnswer()">Submit</button>
+    <div id="hopeResponse"></div>
+  </div>
 
   <script>
-    function checkAnswer() {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('identityInput').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') checkIdentity();
+      });
+      document.getElementById('answerInput').addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') checkHopeAnswer();
+      });
+    });
+
+    function checkIdentity() {
+      const nameInput = document.getElementById('identityInput').value.trim().toLowerCase();
+      const identityResponse = document.getElementById('identityResponse');
+
+      if (nameInput === 'marslie') {
+        document.getElementById('identityCheck').style.display = 'none';
+
+        setTimeout(() => {
+          const capitalizedName = nameInput.charAt(0).toUpperCase() + nameInput.slice(1);
+          document.getElementById('personalMessage').innerText =
+            `Oh, thank God it's you, ${capitalizedName}. There's a package waiting for you at Littlejohn's English Toffee House.`;
+          document.getElementById('messageAndHope').style.display = 'block';
+          document.getElementById('answerInput').focus();
+        }, 400);
+      } else {
+        identityResponse.innerText = "Not who I'm looking for.";
+      }
+    }
+
+    function checkHopeAnswer() {
       const input = document.getElementById('answerInput').value.trim().toLowerCase();
       const validAnswers = [
         'the thing with feathers',
@@ -28,11 +116,31 @@
         '"hope" is the thing with feathers'
       ];
 
+      const hopeResponse = document.getElementById('hopeResponse');
+
       if (validAnswers.includes(input)) {
-        document.body.innerHTML = '<h2>Good job. Here\'s your code: 233754.</h2>';
+        document.body.innerHTML = '';
+        const message = document.createElement('div');
+        message.classList.add('typewriter');
+        document.body.appendChild(message);
+
+        const finalText = `Nice job. Missing letters:\n\n10 —> K\n11 —> A\n12 —> I\n13 —> G\n14 —> Y\n15 —> Z\n16 —> R\n\nGood luck, Marslie.`;
+        typeWriter(message, finalText, 25);
       } else {
-        document.getElementById('response').innerText = 'Incorrect. You should try reading Emily Dickinson.';
+        hopeResponse.innerText = "Incorrect. You're gonna need Emily's help on this one.";
       }
+    }
+
+    function typeWriter(element, text, speed) {
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      type();
     }
   </script>
 </body>
